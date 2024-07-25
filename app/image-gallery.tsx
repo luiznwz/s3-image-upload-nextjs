@@ -7,7 +7,7 @@ export default async function ImageGallery() {
     credentials: {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
-    },
+      },
   });
 
   const objectListParams = new ListObjectsV2Command({
@@ -30,7 +30,7 @@ export default async function ImageGallery() {
                 className="w-full h-full object-cover"
                 width={280}
                 height={280}
-                src="https://s3-gallery-image.s3.us-east-2.amazonaws.com/image-s3-image.jpg"
+                src="https://site-mp-foto-upload.s3.us-east-2.amazonaws.com/image-s3-image3.jpg"
                 alt="Imagem de um cachorro"
               />
             </div>
