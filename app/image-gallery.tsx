@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default async function ImageGallery() {
   const s3Client = new S3Client({
-    region: "sa-east-1",
+    region: "us-east-2",
     credentials: {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
@@ -14,13 +14,16 @@ export default async function ImageGallery() {
     Bucket: "s3-gallery-image",
   });
 
+  const objectList = await s3Client.send(objectListParams);
+  const imageList = objectList.Contents?.map((object) => object.Key);
+  console.log(imageList);
   return (
     <>
       <h2 className="text-2xl font-bold text-slate-600 mb-4 mt-4">
         Galeria de Fotos
       </h2>
       <div className="grid grid-cols-3 gap-3">
-        {Array.from({ length: 10 }).map((_, index) => (
+        {imageList?.map((image, index) => (
           <div
             key={index}
             className=" rounded-md overflow-hidden shadow-md bg-white w-[280px] h-[280px]"
@@ -30,7 +33,7 @@ export default async function ImageGallery() {
                 className="w-full h-full object-cover"
                 width={280}
                 height={280}
-                src="https://s3-gallery-image.s3.us-east-2.amazonaws.com/image-s3-image.jpg"
+                src={`https://s3-gallery-image.s3.us-east-2.amazonaws.com/${image}`}
                 alt="Imagem de um cachorro"
               />
             </div>
